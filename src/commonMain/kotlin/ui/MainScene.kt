@@ -1,11 +1,9 @@
-package ui.shipScene
+package ui
 
 import com.soywiz.klock.timesPerSecond
 import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.ui.uiButton
 import com.soywiz.korge.view.*
-import game.Game
-import ui.VIRTUAL_SIZE
 
 class MainScene : Scene() {
     private lateinit var shipContainer: Container
@@ -13,7 +11,6 @@ class MainScene : Scene() {
     private val shipViewSize = 500
 
     override suspend fun Container.sceneInit() {
-
         fixedSizeContainer(VIRTUAL_SIZE, VIRTUAL_SIZE, clip = false) {
             controls = fixedSizeContainer(300, VIRTUAL_SIZE - 40, clip = true) {
             }
@@ -26,7 +23,6 @@ class MainScene : Scene() {
                 }
             }
         }
-        paintShip()
 
         addFixedUpdater(10.timesPerSecond) {
             tick()
@@ -34,13 +30,7 @@ class MainScene : Scene() {
     }
 
     private fun tick() {
-        Game.tick()
     }
 
-    private fun paintShip() {
-        controls.removeChildren()
-
-        shipContainer.removeChildren()
-    }
 
 }

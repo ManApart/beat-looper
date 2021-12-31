@@ -3,7 +3,6 @@ package ui
 import com.soywiz.korge.scene.Module
 import com.soywiz.korinject.AsyncInjector
 import com.soywiz.korma.geom.*
-import ui.shipScene.MainScene
 
 const val WINDOW_WIDTH = 1000
 const val WINDOW_HEIGHT = 800
