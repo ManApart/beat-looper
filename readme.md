@@ -13,10 +13,10 @@ jsBrowserDistribution
 ## Pushing to web
 
 ```
-aws s3 sync build/distributions/ s3://austinkucera.com/games/stars-between/
+aws s3 sync build/distributions/ s3://austinkucera.com/games/beat-looper/
 
 
-./gradlew jsBrowserDistribution && aws s3 sync build/distributions/ s3://austinkucera.com/games/stars-between/
+./gradlew jsBrowserDistribution && aws s3 sync build/distributions/ s3://austinkucera.com/games/beat-looper/
 ```
 
 
@@ -27,7 +27,4 @@ View the swagger at `http://localhost:8080/swagger-ui.html`
 
 ### TODO
 
-### Examples
-
-![](./example/floorplan.png)
-![](./example/planet.png)
+Proper set of pitches
