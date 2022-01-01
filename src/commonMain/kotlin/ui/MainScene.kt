@@ -22,20 +22,23 @@ import kotlin.collections.set
 class MainScene : Scene() {
     private val builder = MusicBuilder()
     private val player = BeatPlayer()
+    private val boardHeight = 400
 
     override suspend fun Container.sceneInit() {
         builder.boards[0] = Board()
+        builder.boards[1] = Board(Instrument.DRUM)
 
         fixedSizeContainer(VIRTUAL_SIZE, VIRTUAL_SIZE, clip = false) {
-            builder.boards.values.forEach { board ->
-                fixedSizeContainer(300, VIRTUAL_SIZE - 40, clip = false) {
+            builder.boards.values.forEachIndexed { i, board ->
+                fixedSizeContainer(300, boardHeight, clip = false) {
+                    xy(0, i * boardHeight)
                     (0 until board.stepCount()).forEach { x ->
                         (0 until Pitch.values().size).forEach { y ->
                             var pressed = false
                             uiButton(text = "") {
                                 xy(x * 100, y * 50)
                                 onPress {
-                                    builder.boards[0]?.toggleNote(x, Pitch.values()[y].pitch)
+                                    board.toggleNote(x, Pitch.values()[y].pitch)
                                     pressed = !pressed
                                     text = if (pressed) "00000" else ""
                                 }

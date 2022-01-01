@@ -3,7 +3,8 @@ import com.soywiz.korau.sound.readSound
 import com.soywiz.korio.file.std.resourcesVfs
 
 enum class Instrument(private val file: String){
-    PIANO("music/piano.mp3");
+    PIANO("music/piano.mp3"),
+    DRUM("music/drum.mp3");
 
     suspend fun loadSound(): Sound {
         return resourcesVfs[file].readSound()
