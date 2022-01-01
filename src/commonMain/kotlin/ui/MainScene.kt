@@ -1,5 +1,8 @@
 package ui
 
+import BeatPlayer
+import Board
+import MusicBuilder
 import com.soywiz.klock.timesPerSecond
 import com.soywiz.korau.sound.*
 import com.soywiz.korge.scene.Scene
@@ -13,9 +16,11 @@ class MainScene : Scene() {
     private lateinit var controls: Container
     private val shipViewSize = 500
     private lateinit var music: Sound
+    private val builder = MusicBuilder()
+    private val player = BeatPlayer()
 
     override suspend fun Container.sceneInit() {
-        music = resourcesVfs["music/test.mp3"].readSound()
+        builder.boards[0] = Board()
 
         fixedSizeContainer(VIRTUAL_SIZE, VIRTUAL_SIZE, clip = false) {
             controls = fixedSizeContainer(300, VIRTUAL_SIZE - 40, clip = true) {
@@ -23,41 +28,21 @@ class MainScene : Scene() {
             shipContainer = fixedSizeContainer(shipViewSize, shipViewSize, clip = true) {
                 alignLeftToRightOf(controls)
             }
-            uiButton(text = "Planet") {
+            uiButton(text = "C") {
                 alignTopToBottomOf(controls)
                 onPress {
-                    launchImmediately {
-                        playNote()
-                    }
+                    builder.boards[0]?.toggleNote(1, 1.0)
                 }
             }
         }
 
-        addFixedUpdater(10.timesPerSecond) {
-            tick()
+        addFixedUpdater(2.timesPerSecond) {
+            launchImmediately {
+                player.play(builder.buildMusic())
+            }
         }
-
-
-//        val audioOutput: PlatformAudioOutput = nativeSoundProvider.createAudioStream(freq = 44100)
-//        audioOutput.start()
-//        var i = 0
-//        while (i < 1000) {
-//            i++
-//            // Then you have to add samples. This function suspends, and resumes when it needs more data so it can play the data continuously.
-//            // Here you can do raw manipulation, DSP, manual effects and other stuff.
-//            audioOutput.pitch
-//            audioOutput.add(AudioSamples(1, 100, (0..100).)
-//        }
-//
-//        audioOutput.stop()
     }
 
-    private fun tick() {
-    }
-
-    private suspend fun playNote() {
-        music.play(PlaybackTimes.ONE)
-    }
 
 
 }
