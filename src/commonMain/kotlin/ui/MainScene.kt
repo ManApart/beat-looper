@@ -5,11 +5,19 @@ import Board
 import MusicBuilder
 import Pitch
 import com.soywiz.klock.timesPerSecond
-import com.soywiz.korau.sound.*
 import com.soywiz.korge.scene.Scene
+import com.soywiz.korge.ui.buttonBackColor
 import com.soywiz.korge.ui.uiButton
-import com.soywiz.korge.view.*
+import com.soywiz.korge.ui.uiSkin
+import com.soywiz.korge.view.Container
+import com.soywiz.korge.view.addFixedUpdater
+import com.soywiz.korge.view.fixedSizeContainer
+import com.soywiz.korge.view.xy
+import com.soywiz.korim.color.Colors
+import com.soywiz.korim.color.RGBA
 import com.soywiz.korio.async.launchImmediately
+import kotlin.collections.forEach
+import kotlin.collections.set
 
 class MainScene : Scene() {
     private val builder = MusicBuilder()
@@ -23,10 +31,13 @@ class MainScene : Scene() {
                 fixedSizeContainer(300, VIRTUAL_SIZE - 40, clip = false) {
                     (0 until board.stepCount()).forEach { x ->
                         (0 until Pitch.values().size).forEach { y ->
-                            uiButton(text = "$x,$y") {
+                            var pressed = false
+                            uiButton(text = "") {
                                 xy(x * 100, y * 50)
                                 onPress {
                                     builder.boards[0]?.toggleNote(x, Pitch.values()[y].pitch)
+                                    pressed = !pressed
+                                    text = if (pressed) "00000" else ""
                                 }
                             }
                         }
