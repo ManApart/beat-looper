@@ -5,14 +5,18 @@ import com.soywiz.korau.sound.*
 import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.ui.uiButton
 import com.soywiz.korge.view.*
+import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korio.file.std.resourcesVfs
 
 class MainScene : Scene() {
     private lateinit var shipContainer: Container
     private lateinit var controls: Container
     private val shipViewSize = 500
+    private lateinit var music: Sound
 
     override suspend fun Container.sceneInit() {
+        music = resourcesVfs["music/test.mp3"].readSound()
+
         fixedSizeContainer(VIRTUAL_SIZE, VIRTUAL_SIZE, clip = false) {
             controls = fixedSizeContainer(300, VIRTUAL_SIZE - 40, clip = true) {
             }
@@ -22,6 +26,9 @@ class MainScene : Scene() {
             uiButton(text = "Planet") {
                 alignTopToBottomOf(controls)
                 onPress {
+                    launchImmediately {
+                        playNote()
+                    }
                 }
             }
         }
@@ -30,10 +37,7 @@ class MainScene : Scene() {
             tick()
         }
 
-        val music = resourcesVfs["music/test.mp3"].readSound()
 
-        music.pitch = 2.1
-        music.playForever()
 //        val audioOutput: PlatformAudioOutput = nativeSoundProvider.createAudioStream(freq = 44100)
 //        audioOutput.start()
 //        var i = 0
@@ -49,6 +53,10 @@ class MainScene : Scene() {
     }
 
     private fun tick() {
+    }
+
+    private suspend fun playNote() {
+        music.play(PlaybackTimes.ONE)
     }
 
 
