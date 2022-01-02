@@ -2,21 +2,16 @@ package ui
 
 import BeatPlayer
 import Board
+import Instrument
 import MusicBuilder
-import Pitch
 import com.soywiz.klock.timesPerSecond
 import com.soywiz.korge.scene.Scene
-import com.soywiz.korge.ui.buttonBackColor
 import com.soywiz.korge.ui.uiButton
-import com.soywiz.korge.ui.uiSkin
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.addFixedUpdater
 import com.soywiz.korge.view.fixedSizeContainer
 import com.soywiz.korge.view.xy
-import com.soywiz.korim.color.Colors
-import com.soywiz.korim.color.RGBA
 import com.soywiz.korio.async.launchImmediately
-import kotlin.collections.forEach
 import kotlin.collections.set
 
 class MainScene : Scene() {
@@ -25,20 +20,23 @@ class MainScene : Scene() {
     private val boardHeight = 400
 
     override suspend fun Container.sceneInit() {
-        builder.boards[0] = Board()
-        builder.boards[1] = Board(Instrument.DRUM)
+        val piano = Instrument("piano").also { it.loadSamples() }
+        val drum = Instrument("drum").also { it.loadSamples() }
+
+        builder.boards[0] = Board(piano)
+        builder.boards[1] = Board(drum)
 
         fixedSizeContainer(VIRTUAL_SIZE, VIRTUAL_SIZE, clip = false) {
             builder.boards.values.forEachIndexed { i, board ->
                 fixedSizeContainer(300, boardHeight, clip = false) {
                     xy(0, i * boardHeight)
                     (0 until board.stepCount()).forEach { x ->
-                        (0 until Pitch.values().size).forEach { y ->
+                        (0 until Key.values().size).forEach { y ->
                             var pressed = false
                             uiButton(text = "") {
                                 xy(x * 100, y * 50)
                                 onPress {
-                                    board.toggleNote(x, Pitch.values()[y].pitch)
+                                    board.toggleNote(x, Key.values()[Key.values().size-1 - y])
                                     pressed = !pressed
                                     text = if (pressed) "00000" else ""
                                 }

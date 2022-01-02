@@ -28,3 +28,8 @@ View the swagger at `http://localhost:8080/swagger-ui.html`
 ### TODO
 
 Proper set of pitches
+
+
+## Sources
+
+https://samplefocus.com/samples/piano-c
