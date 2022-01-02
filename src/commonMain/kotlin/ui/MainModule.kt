@@ -13,7 +13,7 @@ object MainModule : Module() {
     override val title: String = "Beat Looper"
     override val size: SizeInt = SizeInt(Size(WINDOW_WIDTH, WINDOW_HEIGHT))
     override val windowSize = size
-//    override val icon: String = "images/tiles/space.png"
+    override val icon: String = "images/icon.png"
     override val scaleMode: ScaleMode = ScaleMode.NO_SCALE
     override val clipBorders: Boolean = false
     override val scaleAnchor: Anchor = Anchor.TOP_LEFT
